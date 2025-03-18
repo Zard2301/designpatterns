@@ -35,6 +35,14 @@ public:
     void fly();
 };
 
+class FlyRocketPowered: public FlyBehavior{
+public:
+    FlyRocketPowered();
+    ~FlyRocketPowered();
+
+    void fly();
+};
+
 class QuackBehavior{
 public:
     QuackBehavior();
@@ -67,6 +75,14 @@ public:
     void quack();
 };
 
+class QuackHorn: public QuackBehavior{
+public:
+    QuackHorn();
+    ~QuackHorn();
+
+    void quack();
+};
+
 class Duck {
 public:
     Duck();
@@ -80,14 +96,24 @@ public:
 
     void performFly();
     void performQuack();
+    void setFlyBehavior(FlyBehavior *fb);
+    void setQuackBehavior(QuackBehavior *qb);
 
     void swim();
 };
 
-class MallardDuck: public Duck{
+class MallardDuck: public Duck {
 public:
     MallardDuck();
     ~MallardDuck();
+
+    void display();
+};
+
+class ModelDuck: public Duck {
+public:
+    ModelDuck();
+    ~ModelDuck();
 
     void display();
 };

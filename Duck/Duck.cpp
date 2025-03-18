@@ -36,8 +36,20 @@ FlyNoWay::~FlyNoWay() {
     /* Do nothing */
 }
 
-void FlyNoWay::fly(){
+void FlyNoWay::fly() {
     std::cout << "I can't fly." <<std::endl;
+}
+
+FlyRocketPowered::FlyRocketPowered() {
+    /* Do nothing */
+}
+
+FlyRocketPowered::~FlyRocketPowered() {
+    /* Do nothing */
+}
+
+void FlyRocketPowered::fly() {
+    std::cout << "I'm fly with a roket!!!" << std::endl;
 }
 
 QuackBehavior::QuackBehavior() {
@@ -84,6 +96,18 @@ void Squeak::quack() {
     std::cout << "Squeak" << std::endl;
 }
 
+QuackHorn::QuackHorn() {
+    /* Do nothing */
+}
+
+QuackHorn::~QuackHorn() {
+    /* Do nothing */
+}
+
+void QuackHorn:: quack() {
+    std::cout << "I'm quack with a horn." << std::endl;
+}
+
 Duck::Duck() {
     /* Do nothing */
 }
@@ -98,6 +122,14 @@ void Duck::performFly() {
 
 void Duck::performQuack() {
     pquackBehavior->quack();
+}
+
+void Duck::setFlyBehavior(FlyBehavior *fb){
+    pflyBehavior = fb;
+}
+
+void Duck::setQuackBehavior(QuackBehavior *qb){
+    pquackBehavior = qb;
 }
 
 void Duck::swim() {
@@ -115,4 +147,17 @@ MallardDuck::~MallardDuck() {
 
 void MallardDuck::display() {
     std::cout << "I'm a real Mallard duck." << std::endl;
+}
+
+ModelDuck::ModelDuck() {
+    pflyBehavior = new FlyNoWay();
+    pquackBehavior = new MuteQuack();
+}
+
+ModelDuck::~ModelDuck() {
+    /* Do nothing */ 
+}
+
+void ModelDuck::display() {
+    std::cout << "I'm a model duck." << std::endl;
 }
