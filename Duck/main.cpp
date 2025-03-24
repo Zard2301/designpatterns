@@ -23,8 +23,8 @@ int main()
     pModel->performQuack();
 
     std::cout << "<< Opt Model duck >>" << std::endl;
-    pModel->setFlyBehavior(new FlyRocketPowered());
-    pModel->setQuackBehavior(new QuackHorn());
+    pModel->setFlyBehavior(std::make_unique<FlyRocketPowered>());
+    pModel->setQuackBehavior(std::make_unique<QuackHorn>());
 
     pModel->performFly();
     pModel->performQuack();

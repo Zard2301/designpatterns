@@ -9,12 +9,12 @@
 #ifndef _A_DUCK_H_
 #define _A_DUCK_H_
 
-#include <iostream>
+#include <memory>
 
 class FlyBehavior{
 public:
-    FlyBehavior();
-    ~FlyBehavior();
+    // FlyBehavior(); Base class doesn't require a constructor
+    virtual ~FlyBehavior(); // Base class destructor is a virtual function
 
     virtual void fly() = 0;
 };
@@ -45,8 +45,8 @@ public:
 
 class QuackBehavior{
 public:
-    QuackBehavior();
-    ~QuackBehavior();
+    //QuackBehavior(); Base class doesn't require a constructor
+    virtual ~QuackBehavior(); // Base class destructor is a virtual function
 
     virtual void quack() = 0;
 };
@@ -85,21 +85,22 @@ public:
 
 class Duck {
 public:
-    Duck();
-    ~Duck();
+    Duck() = default; //Is it should be retain?
+    virtual ~Duck(); // Base class destructor is a virtual function
     /* Duck's display */
     virtual void display() = 0;
 
-    /* Duck's behavior */
-    FlyBehavior* pflyBehavior;
-    QuackBehavior* pquackBehavior;
-
     void performFly();
     void performQuack();
-    void setFlyBehavior(FlyBehavior *fb);
-    void setQuackBehavior(QuackBehavior *qb);
+    void setFlyBehavior(std::unique_ptr<FlyBehavior> fb);
+    void setQuackBehavior(std::unique_ptr<QuackBehavior> qb);
 
     void swim();
+
+protected:
+    /* Duck's behavior */
+    std::unique_ptr<FlyBehavior> pflyBehavior;
+    std::unique_ptr<QuackBehavior> pquackBehavior;
 };
 
 class MallardDuck: public Duck {

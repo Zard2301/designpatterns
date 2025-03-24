@@ -6,11 +6,12 @@
 *     1:
 **********************************************************/
 
+#include <iostream>
 #include "Duck.hpp"
 
-FlyBehavior::FlyBehavior() {
-    /* Do nothing */
-}
+// FlyBehavior::FlyBehavior() {
+//     /* Do nothing */
+// }
 
 FlyBehavior::~FlyBehavior() {
     /* Do nothing */
@@ -52,9 +53,9 @@ void FlyRocketPowered::fly() {
     std::cout << "I'm fly with a roket!!!" << std::endl;
 }
 
-QuackBehavior::QuackBehavior() {
-    /* Do nothing */
-}
+// QuackBehavior::QuackBehavior() {
+//     /* Do nothing */
+// }
 
 QuackBehavior::~QuackBehavior() {
     /* Do nothing */
@@ -108,28 +109,30 @@ void QuackHorn:: quack() {
     std::cout << "I'm quack with a horn." << std::endl;
 }
 
-Duck::Duck() {
-    /* Do nothing */
-}
+// Duck::Duck() {
+//     /* Do nothing */
+// }
 
 Duck::~Duck() {
     /* Do nothing */
 }
 
 void Duck::performFly() {
-    pflyBehavior->fly();
+    if (pflyBehavior) //check ptr valid
+        pflyBehavior->fly();
 }
 
 void Duck::performQuack() {
-    pquackBehavior->quack();
+    if (pquackBehavior) //check ptr valid
+        pquackBehavior->quack();
 }
 
-void Duck::setFlyBehavior(FlyBehavior *fb){
-    pflyBehavior = fb;
+void Duck::setFlyBehavior(std::unique_ptr<FlyBehavior> fb){
+    pflyBehavior = std::move(fb);
 }
 
-void Duck::setQuackBehavior(QuackBehavior *qb){
-    pquackBehavior = qb;
+void Duck::setQuackBehavior(std::unique_ptr<QuackBehavior> qb){
+    pquackBehavior = std::move(qb);
 }
 
 void Duck::swim() {
@@ -137,8 +140,8 @@ void Duck::swim() {
 }
 
 MallardDuck::MallardDuck() {
-    pflyBehavior = new FlyWithWings();
-    pquackBehavior = new Quack();
+    pflyBehavior = std::make_unique<FlyWithWings>();
+    pquackBehavior =  std::make_unique<Quack>();
 }
 
 MallardDuck::~MallardDuck() {
@@ -150,8 +153,8 @@ void MallardDuck::display() {
 }
 
 ModelDuck::ModelDuck() {
-    pflyBehavior = new FlyNoWay();
-    pquackBehavior = new MuteQuack();
+    pflyBehavior = std::make_unique<FlyNoWay>();
+    pquackBehavior = std::make_unique<MuteQuack>();
 }
 
 ModelDuck::~ModelDuck() {
