@@ -14,15 +14,15 @@ int main()
     MallardDuck* pMallard = new MallardDuck();
     ModelDuck* pModel = new ModelDuck();
 
-    std::cout << "<< Mallard duck >>" << std::endl;
+    std::cout << "{{ Mallard duck }}" << std::endl;
     pMallard->performFly();
     pMallard->performQuack();
 
-    std::cout << "<< Model duck >>" << std::endl;
+    std::cout << "{{ Model duck }}" << std::endl;
     pModel->performFly();
     pModel->performQuack();
 
-    std::cout << "<< Opt Model duck >>" << std::endl;
+    std::cout << "{{ Opt Model duck }}" << std::endl;
     pModel->setFlyBehavior(std::make_unique<FlyRocketPowered>());
     pModel->setQuackBehavior(std::make_unique<QuackHorn>());
 

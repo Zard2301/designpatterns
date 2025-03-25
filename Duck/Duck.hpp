@@ -24,7 +24,7 @@ public:
     FlyWithWings();
     ~FlyWithWings();
 
-    void fly();
+    void fly() override;
 };
 
 class FlyNoWay: public FlyBehavior{
@@ -32,7 +32,7 @@ public:
     FlyNoWay();
     ~FlyNoWay();
 
-    void fly();
+    void fly() override;
 };
 
 class FlyRocketPowered: public FlyBehavior{
@@ -40,7 +40,7 @@ public:
     FlyRocketPowered();
     ~FlyRocketPowered();
 
-    void fly();
+    void fly() override;
 };
 
 class QuackBehavior{
@@ -56,7 +56,7 @@ public:
     Quack();
     ~Quack();
 
-    void quack();
+    void quack() override;
 };
 
 class MuteQuack: public QuackBehavior{
@@ -64,7 +64,7 @@ public:
     MuteQuack();
     ~MuteQuack();
 
-    void quack();
+    void quack() override;
 };
 
 class Squeak: public QuackBehavior{
@@ -72,7 +72,7 @@ public:
     Squeak();
     ~Squeak();
 
-    void quack();
+    void quack() override;
 };
 
 class QuackHorn: public QuackBehavior{
@@ -80,7 +80,7 @@ public:
     QuackHorn();
     ~QuackHorn();
 
-    void quack();
+    void quack() override;
 };
 
 class Duck {
@@ -108,7 +108,7 @@ public:
     MallardDuck();
     ~MallardDuck();
 
-    void display();
+    void display() override;
 };
 
 class ModelDuck: public Duck {
@@ -116,7 +116,7 @@ public:
     ModelDuck();
     ~ModelDuck();
 
-    void display();
+    void display() override;
 };
 
 #endif
