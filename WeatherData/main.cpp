@@ -6,9 +6,10 @@
 *     1:
 **********************************************************/
 
+#include "WeatherData.hpp"
 
 int main ()
 {
-
+    std::shared_ptr<WeatherData> pw = std::make_shared<WeatherData>();
     return 0;
 }
