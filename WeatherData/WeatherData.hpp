@@ -30,8 +30,8 @@ class Subject {
 public:
     virtual ~Subject();
 
-    virtual void registerObserver( std::unique_ptr<Observer> po ) = 0;
-    virtual void removeObserver( std::unique_ptr<Observer> po ) = 0;
+    virtual void registerObserver( std::shared_ptr<Observer> po ) = 0;
+    virtual void removeObserver( std::shared_ptr<Observer> po ) = 0;
     virtual void notifyObserver() = 0;
 };
 
@@ -40,8 +40,8 @@ public:
     WeatherData();
     ~WeatherData();
 
-    void registerObserver( std::unique_ptr<Observer> po ) override;
-    void removeObserver( std::unique_ptr<Observer> po ) override;
+    void registerObserver( std::shared_ptr<Observer> po ) override;
+    void removeObserver( std::shared_ptr<Observer> po ) override;
     void notifyObserver() override;
 
     float getTemperature();
@@ -51,7 +51,7 @@ public:
     void setMeasurement(float temperature, float pressure, float hummidity);
 
 private:
-    std::list<std::unique_ptr<Observer>> observers;
+    std::list<std::shared_ptr<Observer>> observers;
     float temperature;
     float pressure;
     float hummidity;
@@ -62,8 +62,8 @@ public:
     Temperature(std::shared_ptr<WeatherData> pw);
     ~Temperature();
 
-    void update();
-    void display();
+    void update() override;
+    void display() override;
 private:
     float oTemperature;
     std::shared_ptr<WeatherData> pweatherData;
@@ -74,8 +74,8 @@ public:
     Pressure(std::shared_ptr<WeatherData> pw);
     ~Pressure();
 
-    void update();
-    void display();
+    void update() override;
+    void display() override;
 private:
     float oPressure;
     std::shared_ptr<WeatherData> pweatherData;
@@ -86,10 +86,25 @@ public:
     Hummidity(std::shared_ptr<WeatherData> pw);
     ~Hummidity();
 
-    void update();
-    void display();
+    void update() override;
+    void display() override;
 private:
     float oHummidity;
+    std::shared_ptr<WeatherData> pweatherData;
+};
+
+class currentConditionsDisplay: public Observer, public Display {
+public:
+    currentConditionsDisplay(std::shared_ptr<WeatherData> pw);
+    ~currentConditionsDisplay();
+
+    void update() override;
+    void display() override;
+
+private:
+    float temperature;
+    float pressure;
+    float hummidity;
     std::shared_ptr<WeatherData> pweatherData;
 };
 

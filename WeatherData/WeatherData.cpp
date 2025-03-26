@@ -31,12 +31,12 @@ WeatherData::~WeatherData() {
     /* Do nothing */
 }
 
-void WeatherData::registerObserver( std::unique_ptr<Observer> po ) {
-    //observers.push_back(po);
+void WeatherData::registerObserver( std::shared_ptr<Observer> po ) {
+    observers.push_back(po);
 }
 
-void WeatherData::removeObserver( std::unique_ptr<Observer> po ) {
-    //observers.remove(po);
+void WeatherData::removeObserver( std::shared_ptr<Observer> po ) {
+    observers.remove(po);
 }
 
 void WeatherData::notifyObserver() {
@@ -111,3 +111,24 @@ void Hummidity::update() {
 };
 
 void Hummidity::display() {}
+
+currentConditionsDisplay::currentConditionsDisplay(std::shared_ptr<WeatherData> pw) {
+    this->pweatherData = pw;
+}
+
+currentConditionsDisplay::~currentConditionsDisplay() {
+    pweatherData = NULL;
+}
+
+void currentConditionsDisplay::update() {
+    this->temperature = pweatherData->getTemperature();
+    this->pressure = pweatherData->getPressure();
+    this->hummidity = pweatherData->getHummidity();
+
+    display();
+}
+
+void currentConditionsDisplay::display() {
+    std::cout << "Current conditions temperature: " << temperature << "F degrees and pressure: " \
+    << pressure << "kPa and hummidity: " << hummidity << "% hummidity"<< std::endl;
+}
