@@ -22,9 +22,9 @@ Subject::~Subject() {
 }
 
 WeatherData::WeatherData() {
-    float temperature = 0.0;
-    float pressure = 0.0;
-    float hummidity = 0.0;
+    temperature = 0.0;
+    pressure = 0.0;
+    hummidity = 0.0;
 }
 
 WeatherData::~WeatherData() {
