@@ -20,5 +20,9 @@ int main ()
     pw->setMeasurement(82.0f, 70.0f, 29.2f);
     pw->setMeasurement(78.0f, 90.0f, 29.2f);
 
+    pw->removeObserver(pc);
+
+    pw->setMeasurement(79.0f, 91.6f, 30.4f);
+
     return 0;
 }

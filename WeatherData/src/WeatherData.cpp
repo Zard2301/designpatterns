@@ -28,7 +28,7 @@ WeatherData::WeatherData() {
 }
 
 WeatherData::~WeatherData() {
-    /* Do nothing */
+    std::cout << "Run WeatherData Destructor" << std::endl;
 }
 
 void WeatherData::registerObserver( std::shared_ptr<Observer> po ) {
@@ -36,12 +36,24 @@ void WeatherData::registerObserver( std::shared_ptr<Observer> po ) {
 }
 
 void WeatherData::removeObserver( std::shared_ptr<Observer> po ) {
-    observers.remove(po);
+    //observers.remove(po);
+    observers.remove_if([po](std::weak_ptr<Observer> wpo){
+        auto obs = wpo.lock();
+        return (po == obs);});
 }
 
 void WeatherData::notifyObserver() {
-    for(const auto& it : observers)
-        it->update();
+    // for(const auto& it : observers)
+    //     it->update();
+    for(auto it = observers.begin(); it != observers.end();) {
+        if(auto obs = it->lock()) {
+            obs->update();
+            ++it;
+        }
+        else {
+            it = observers.erase(it);
+        }
+    }
 }
 
 void WeatherData::measurementChanged() {
@@ -118,6 +130,7 @@ currentConditionsDisplay::currentConditionsDisplay(std::shared_ptr<WeatherData> 
 
 currentConditionsDisplay::~currentConditionsDisplay() {
     pweatherData = NULL;
+    std::cout << "Run currentConditionsDisplay Destructor" << std::endl;
 }
 
 void currentConditionsDisplay::update() {

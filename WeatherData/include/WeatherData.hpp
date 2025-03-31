@@ -51,7 +51,8 @@ public:
     void setMeasurement(float temperature, float pressure, float hummidity);
 
 private:
-    std::list<std::shared_ptr<Observer>> observers;
+    //std::list<std::shared_ptr<Observer>> observers;
+    std::list<std::weak_ptr<Observer>> observers; //address memory leak caused by shared_ptr
     float temperature;
     float pressure;
     float hummidity;
