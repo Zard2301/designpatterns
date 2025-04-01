@@ -7,6 +7,7 @@
 **********************************************************/
 
 #include <iostream>
+#include <numeric>
 #include "WeatherData.hpp"
 
 Observer::~Observer() {
@@ -148,6 +149,9 @@ void currentConditionsDisplay::display() {
 
 statisticsDisplay::statisticsDisplay(std::shared_ptr<WeatherData> pw) {
     this->pweatherData = pw;
+    this->temp_avg = -999.0;
+    this->temp_max = -999.0;
+    this->temp_min = -999.0;
 }
 
 statisticsDisplay::~statisticsDisplay() {
@@ -156,12 +160,18 @@ statisticsDisplay::~statisticsDisplay() {
 }
 
 void statisticsDisplay::update() {
-    this->temperature = pweatherData->getTemperature();
+    this->temp_vec.push_back(pweatherData->getTemperature());
+    this->temp_avg = std::accumulate(this->temp_vec.begin(), this->temp_vec.end(), 0) / temp_vec.size(); //use accumulate get avg
+    if (this->temp_max < this->temp_vec.back())
+        this->temp_max = this->temp_vec.back();
+    if (this->temp_min > this->temp_vec.back() || this->temp_min < -990.0)
+        this->temp_min = this->temp_vec.back();
     this->display();
 }
 
 void statisticsDisplay::display() {
-    std::cout << "Avg/Max/Min temperature = " << std::endl;
+    std::cout << "Avg/Max/Min temperature = " << this->temp_avg << "/"  \
+    << this->temp_max << "/" << this->temp_min <<std::endl;
 }
 
 forecastDisplay::forecastDisplay(std::shared_ptr<WeatherData> pw) {
@@ -174,7 +184,7 @@ forecastDisplay::~forecastDisplay() {
 }
 
 void forecastDisplay::update() {
-    this->pressure = pweatherData->getPressure();
+    this->currentPressure = pweatherData->getPressure();
     this->display();
 }
 

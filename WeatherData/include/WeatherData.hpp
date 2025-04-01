@@ -10,6 +10,7 @@
 #define _A_WEATHERDATA_H_
 
 #include <list>
+#include <vector>
 #include <memory>
 
 class Observer {
@@ -118,7 +119,10 @@ public:
     void display();
 
 private:
-    float temperature;
+    std::vector<float> temp_vec;
+    float temp_max;
+    float temp_min;
+    float temp_avg;
     std::shared_ptr<WeatherData> pweatherData;
 };
 
@@ -131,7 +135,8 @@ public:
     void display();
 
 private:
-    float pressure;
+    float currentPressure;
+    float lastPressure;
     std::shared_ptr<WeatherData> pweatherData;
 };
 
