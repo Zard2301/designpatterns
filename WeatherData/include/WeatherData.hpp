@@ -46,16 +46,16 @@ public:
 
     float getTemperature();
     float getPressure();
-    float getHummidity();
+    float getHumidity();
     void measurementChanged();
-    void setMeasurement(float temperature, float pressure, float hummidity);
+    void setMeasurement(float temperature, float humidity, float pressure);
 
 private:
     //std::list<std::shared_ptr<Observer>> observers;
-    std::list<std::weak_ptr<Observer>> observers; //address memory leak caused by shared_ptr
+    std::list<std::weak_ptr<Observer>> observers; //to address memory leaks caused by circular references in shared_ptr
     float temperature;
     float pressure;
-    float hummidity;
+    float humidity;
 };
 
 class Temperature: public Observer, public Display {
@@ -82,15 +82,15 @@ private:
     std::shared_ptr<WeatherData> pweatherData;
 };
 
-class Hummidity: public Observer, public Display {
+class Humidity: public Observer, public Display {
 public:
-    Hummidity(std::shared_ptr<WeatherData> pw);
-    ~Hummidity();
+    Humidity(std::shared_ptr<WeatherData> pw);
+    ~Humidity();
 
     void update() override;
     void display() override;
 private:
-    float oHummidity;
+    float oHumidity;
     std::shared_ptr<WeatherData> pweatherData;
 };
 
@@ -104,8 +104,48 @@ public:
 
 private:
     float temperature;
+    //float pressure; currentConditionsDisplay don't need pressure
+    float humidity;
+    std::shared_ptr<WeatherData> pweatherData;
+};
+
+class statisticsDisplay: public Observer, public Display{
+public:
+    statisticsDisplay(std::shared_ptr<WeatherData> pw);
+    ~statisticsDisplay();
+
+    void update();
+    void display();
+
+private:
+    float temperature;
+    std::shared_ptr<WeatherData> pweatherData;
+};
+
+class forecastDisplay: public Observer, public Display{
+public:
+    forecastDisplay(std::shared_ptr<WeatherData> pw);
+    ~forecastDisplay();
+
+    void update();
+    void display();
+
+private:
     float pressure;
-    float hummidity;
+    std::shared_ptr<WeatherData> pweatherData;
+};
+
+class heatIndexDisplay: public Observer, public Display {
+public:
+    heatIndexDisplay(std::shared_ptr<WeatherData> pw);
+    ~heatIndexDisplay();
+    void update();
+    void display();
+private:
+    float computeHeatIndex(float t, float rh);
+    float temperature;
+    float humidity;
+    float heatindex;
     std::shared_ptr<WeatherData> pweatherData;
 };
 
