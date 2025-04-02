@@ -175,6 +175,7 @@ void statisticsDisplay::display() {
 }
 
 forecastDisplay::forecastDisplay(std::shared_ptr<WeatherData> pw) {
+    this->currentPressure = 29.92f;
     this->pweatherData = pw;
 }
 
@@ -184,12 +185,19 @@ forecastDisplay::~forecastDisplay() {
 }
 
 void forecastDisplay::update() {
+    this->lastPressure = this->currentPressure;
     this->currentPressure = pweatherData->getPressure();
+    
     this->display();
 }
 
 void forecastDisplay::display() {
-    std::cout << "Forecast: " << std::endl;
+    if (this->currentPressure > this->lastPressure)
+        std::cout << "Forecast: Improving weather on the way!" << std::endl;
+    else if (this->currentPressure == this->lastPressure)
+        std::cout << "Forecast: More of the same" << std::endl;
+    else
+        std::cout << "Forecast: Watch out for cooler, rainy weather" << std::endl;
 }
 
 heatIndexDisplay::heatIndexDisplay(std::shared_ptr<WeatherData> pw) {
