@@ -152,6 +152,7 @@ statisticsDisplay::statisticsDisplay(std::shared_ptr<WeatherData> pw) {
     this->temp_avg = -999.0;
     this->temp_max = -999.0;
     this->temp_min = -999.0;
+    this->temp_sum = 0;
 }
 
 statisticsDisplay::~statisticsDisplay() {
@@ -161,7 +162,9 @@ statisticsDisplay::~statisticsDisplay() {
 
 void statisticsDisplay::update() {
     this->temp_vec.push_back(pweatherData->getTemperature());
-    this->temp_avg = std::accumulate(this->temp_vec.begin(), this->temp_vec.end(), 0) / temp_vec.size(); //use accumulate get avg
+    this->temp_sum += this->temp_vec.back();
+    this->temp_avg = this->temp_sum / temp_vec.size();
+    //this->temp_avg = std::accumulate(this->temp_vec.begin(), this->temp_vec.end(), 0) / temp_vec.size(); //use accumulate get avg
     if (this->temp_max < this->temp_vec.back())
         this->temp_max = this->temp_vec.back();
     if (this->temp_min > this->temp_vec.back() || this->temp_min < -990.0)

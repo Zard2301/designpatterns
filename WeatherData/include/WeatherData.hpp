@@ -123,6 +123,7 @@ private:
     float temp_max;
     float temp_min;
     float temp_avg;
+    float temp_sum;
     std::shared_ptr<WeatherData> pweatherData;
 };
 
